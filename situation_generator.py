@@ -47,11 +47,14 @@ MUTED_GOLD = (235, 225, 200)
 CHANNEL_NAME = "KIDS ENGLISH CLUB"
 TAGLINE = "Fun Everyday English  •  Learn & Grow  •  Kids English Club"
 
-# Kids Voices
-LILY_VOICE = "en-US-AnaNeural"      # Official Microsoft Child Voice
-LEO_VOICE = "en-US-EricNeural"      # Friendly energetic voice
-LEO_PITCH = "+18Hz"                 # Young kid pitch
-VOICE_RATE = "-5%"
+# Kids Voices (Both authentic child voice models)
+LILY_VOICE = "en-US-AnaNeural"      # Authentic Child Voice Model
+LILY_PITCH = "+8Hz"                 # Cheerful girl child pitch (~305 Hz)
+LILY_RATE = "-3%"
+
+LEO_VOICE = "en-US-AnaNeural"       # Authentic Child Voice Model
+LEO_PITCH = "-20Hz"                 # Young boy child resonance pitch (~248 Hz)
+LEO_RATE = "-4%"
 
 TOPICS = [
     {
@@ -162,9 +165,9 @@ async def generate_audio_files(turns, run_dir):
         spoken = re.sub(r'\*\*(.*?)\*\*', r'\1', turn["text"])
         
         if turn["speaker"] == "Host1":
-            comm = edge_tts.Communicate(spoken, LILY_VOICE, rate=VOICE_RATE)
+            comm = edge_tts.Communicate(spoken, LILY_VOICE, rate=LILY_RATE, pitch=LILY_PITCH)
         else:
-            comm = edge_tts.Communicate(spoken, LEO_VOICE, rate=VOICE_RATE, pitch=LEO_PITCH)
+            comm = edge_tts.Communicate(spoken, LEO_VOICE, rate=LEO_RATE, pitch=LEO_PITCH)
             
         sentences = []
         audio_bytes = bytearray()
