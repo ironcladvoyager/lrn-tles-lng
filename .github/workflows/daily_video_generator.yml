@@ -43,10 +43,14 @@ jobs:
           python-version: '3.11'
 
       - name: Install System Dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg fonts-dejavu fonts-freefont-ttf
-          sudo fc-cache -fv
+          if ! command -v ffmpeg &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y ffmpeg
+          fi
+          sudo apt-get install -y --no-install-recommends fonts-dejavu-core || true
+          fc-cache -fv || true
 
       - name: Install Python Dependencies
         run: |
