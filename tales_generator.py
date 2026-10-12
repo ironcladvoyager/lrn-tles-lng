@@ -392,14 +392,32 @@ async def synthesize_single_turn(i, turn, audio_dir, sem):
                 print(f"[tts] Turn {i} attempt {attempt} notice: {e}. Retrying in {attempt * 1.5}s...")
                 await asyncio.sleep(attempt * 1.5)
 
-        # If all TTS attempts fail, generate safe fallback audio using pydub so ffmpeg never breaks
+        # If Edge-TTS fails (e.g. cloud runner IP rate-limit), fall back to Google TTS (gTTS)
         if not success or len(audio_bytes) < 500:
-            print(f"[tts] ⚠️ Turn {i} generating fallback silent audio to prevent broken pipe.")
-            est_dur = max(3.5, len(spoken.split()) * 0.45)
-            silent_seg = AudioSegment.silent(duration=int(est_dur * 1000), frame_rate=24000)
-            silent_seg.export(str(mp3_p), format="mp3")
-            duration = est_dur
-            sentences = [{"text": spoken, "start": 0.0, "duration": est_dur, "end": est_dur}]
+            try:
+                from gtts import gTTS
+                tld = "com" if turn["speaker"] == "Host1" else "co.uk"
+                tts = gTTS(text=spoken, lang="en", tld=tld)
+                tts.save(str(mp3_p))
+                try:
+                    r = subprocess.run(
+                        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                         "-of", "default=noprint_wrappers=1:nokey=1", str(mp3_p)],
+                        capture_output=True, text=True, check=True
+                    )
+                    duration = float(r.stdout.strip())
+                except Exception:
+                    duration = max(3.5, len(spoken.split()) * 0.45)
+                sentences = [{"text": spoken, "start": 0.0, "duration": duration, "end": duration}]
+                success = True
+                print(f"[tts] ✅ Turn {i} recovered via gTTS ({turn['speaker']} tld={tld}, dur={duration:.1f}s)")
+            except Exception as e:
+                print(f"[tts] ⚠️ Turn {i} gTTS fallback failed: {e}. Generating silent audio.")
+                est_dur = max(3.5, len(spoken.split()) * 0.45)
+                silent_seg = AudioSegment.silent(duration=int(est_dur * 1000), frame_rate=24000)
+                silent_seg.export(str(mp3_p), format="mp3")
+                duration = est_dur
+                sentences = [{"text": spoken, "start": 0.0, "duration": est_dur, "end": est_dur}]
         else:
             with open(mp3_p, "wb") as f:
                 f.write(audio_bytes)
