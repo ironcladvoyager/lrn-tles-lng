@@ -73,11 +73,11 @@ jobs:
             CMD_ARGS="$CMD_ARGS --topic \"${{ github.event.inputs.custom_topic }}\""
           fi
 
-          # Handle publishing flags
-          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.publish_youtube }}" = "true" ]; then
+          # Handle publishing flags (publish by default unless explicitly disabled as 'false')
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.publish_youtube }}" != "false" ]; then
             CMD_ARGS="$CMD_ARGS --publish-yt"
           fi
-          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.publish_facebook }}" = "true" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.publish_facebook }}" != "false" ]; then
             CMD_ARGS="$CMD_ARGS --publish-fb"
           fi
 

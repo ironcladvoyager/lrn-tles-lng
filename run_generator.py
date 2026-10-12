@@ -89,7 +89,9 @@ def main():
             yt_res = upload_video_to_youtube(video_path, meta, privacy_status=privacy)
             print(f"🎉 YouTube Publish Success! Link: {yt_res['url']}")
         except Exception as e:
-            print(f"⚠️ YouTube upload note: {e}")
+            print(f"⚠️ YouTube upload error: {e}")
+            import traceback
+            traceback.print_exc()
 
     # 5. Publish to Facebook if enabled
     if publish_fb:
@@ -100,7 +102,9 @@ def main():
             if fb_res:
                 print(f"🎉 Facebook Publish Success! Video ID: {fb_res.get('id')}")
         except Exception as e:
-            print(f"⚠️ Facebook upload note: {e}")
+            print(f"⚠️ Facebook upload error: {e}")
+            import traceback
+            traceback.print_exc()
 
     print("\n✅ All operations completed successfully!")
 
