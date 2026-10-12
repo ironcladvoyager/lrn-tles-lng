@@ -623,33 +623,27 @@ def render_broadcast_frame(base_canvas, speaker, phrase_text, active_w_idx, eq_b
     center_y = 330
     start_y = max(180, center_y - total_h // 2)
 
-    # Soft dark radial background glow
-    glow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    gdraw = ImageDraw.Draw(glow)
-    glow_w = max(sum(item[2] for item in l) for l in lines) + 130
-    glow_h = total_h + 80
-    gdraw.rounded_rectangle([
-        (center_x - glow_w // 2, start_y + total_h // 2 - glow_h // 2),
-        (center_x + glow_w // 2, start_y + total_h // 2 + glow_h // 2)
-    ], radius=28, fill=(0, 0, 0, 165))
-    glow = glow.filter(ImageFilter.GaussianBlur(24))
-    canvas.paste(glow, (0, 0), glow)
+    # 4. Translucent dark backdrop card for subtitles
+    glow_w = max(sum(item[2] for item in l) for l in lines) + 120
+    glow_h = total_h + 70
+    gx1 = center_x - glow_w // 2
+    gy1 = start_y + total_h // 2 - glow_h // 2
+    gx2 = center_x + glow_w // 2
+    gy2 = start_y + total_h // 2 + glow_h // 2
 
-    # Deep drop shadow
-    shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    sdraw = ImageDraw.Draw(shadow)
+    draw = ImageDraw.Draw(canvas)
+    draw.rounded_rectangle([(gx1, gy1), (gx2, gy2)], radius=24, fill=(10, 14, 24, 215), outline=(255, 215, 0, 140), width=2)
+
+    # Drop shadow text
     for l_i, line in enumerate(lines):
         lw = sum(item[2] for item in line)
         lx = center_x - lw // 2
         ly = start_y + l_i * line_h
         for (w_i, clean_w, wl) in line:
-            sdraw.text((lx + 4, ly + 5), clean_w, fill=(0, 0, 0, 255), font=f_sub)
+            draw.text((lx + 3, ly + 4), clean_w, fill=(0, 0, 0, 240), font=f_sub)
             lx += wl
-    shadow = shadow.filter(ImageFilter.GaussianBlur(5))
-    canvas.paste(shadow, (0, 0), shadow)
 
     # Foreground text with active spoken word highlighted in Gold
-    draw = ImageDraw.Draw(canvas)
     for l_i, line in enumerate(lines):
         lw = sum(item[2] for item in line)
         lx = center_x - lw // 2
@@ -720,6 +714,7 @@ def assemble_video_fast_pipe(topic_item, turns, audio_list, run_dir):
 
         cmd = [
             "ffmpeg", "-y",
+            "-loglevel", "error",
             "-f", "rawvideo",
             "-vcodec", "rawvideo",
             "-s", f"{VIDEO_WIDTH}x{VIDEO_HEIGHT}",
@@ -742,7 +737,7 @@ def assemble_video_fast_pipe(topic_item, turns, audio_list, run_dir):
             print(f"  [video] Fixing empty audio for clip {i}...")
             AudioSegment.silent(duration=int(dur * 1000) or 4000, frame_rate=24000).export(str(audio_file), format="mp3")
 
-        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
         broken = False
         for f_idx in range(total_frames):
