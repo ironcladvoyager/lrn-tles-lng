@@ -23,7 +23,7 @@ from topics_manager import get_next_topic, mark_topic_used
 from tales_generator import run_tales_generation
 
 def parse_args():
-    turns = 150  # Default ~20 minutes
+    turns = 120  # Default ~20 minutes (each turn is ~10s speech + pause)
     publish_yt = False
     publish_fb = False
     custom_topic = None
@@ -36,9 +36,9 @@ def parse_args():
         elif arg == "--quick":
             turns = 8
         elif arg == "--10min":
-            turns = 80
+            turns = 60
         elif arg in ["--full", "--20min"]:
-            turns = 150
+            turns = 120
         elif arg == "--turns" and i + 1 < len(sys.argv):
             turns = int(sys.argv[i + 1])
         elif arg == "--auto":

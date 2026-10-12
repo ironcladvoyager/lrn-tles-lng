@@ -1,8 +1,23 @@
-__pycache__/
-*.pyc
+# Environment & Secrets
+.env
+*.env
+*.jsonl
+client_secrets*.json
+ironcladvoyager*.json
+*.pem
+*.key
+credentials*.json
+
+# Build & Runtime Outputs
 output/
 temp/
-.env
+__pycache__/
+*.pyc
+
+# Media & Generated files
 *.mp4
 *.mp3
+*.wav
+
+# Runtime state trackers
 used_topics.txt

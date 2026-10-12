@@ -313,26 +313,32 @@ def generate_full_story_script(topic_item, target_turns=150):
     Main script orchestrator. Tries AI generation act by act if API key is provided,
     otherwise relies on the complete procedural story engine.
     """
-    if os.getenv("POLLINATIONS_API_KEY") and target_turns >= 20:
-        print(f"[script] 🤖 Generating AI dialogue via Pollinations for: '{topic_item['topic']}'...")
-        acts_plan = [
-            ("Act 1", "Introduction & Setting the Tale Scene", target_turns // 5),
-            ("Act 2", "The Journey Begins & The First Riddle", target_turns // 5),
-            ("Act 3", "The Climax & Solving the Mystery", target_turns // 5),
-            ("Act 4", "Language Breakdown & Moral Reflection", target_turns // 5),
-            ("Act 5", "Interactive Quiz & Encouraging Sign-off", target_turns - 4 * (target_turns // 5)),
-        ]
-        ai_turns = []
-        for act_name, act_theme, act_count in acts_plan:
-            chunk = generate_act_ai(topic_item, act_name, act_theme, act_count)
-            if chunk:
-                ai_turns.extend(chunk)
-            else:
-                break
-        if len(ai_turns) >= target_turns * 0.8:
-            print(f"[script] ✅ AI generated {len(ai_turns)} turns successfully!")
-            return ai_turns[:target_turns]
-        print("[script] AI incomplete, falling back to curated storytelling engine.")
+    if os.getenv("POLLINATIONS_API_KEY"):
+        if target_turns <= 8:
+            print(f"[script] 🤖 Generating AI dialogue via Pollinations for: '{topic_item['topic']}' ({target_turns} turns)...")
+            chunk = generate_act_ai(topic_item, "Episode Preview", "Story Dialogue", target_turns)
+            if chunk and len(chunk) >= target_turns:
+                return chunk[:target_turns]
+        else:
+            print(f"[script] 🤖 Generating full 5-act AI story dialogue via Pollinations for: '{topic_item['topic']}'...")
+            acts_plan = [
+                ("Act 1", "Introduction & Setting the Tale Scene", target_turns // 5),
+                ("Act 2", "The Journey Begins & The First Riddle", target_turns // 5),
+                ("Act 3", "The Climax & Solving the Mystery", target_turns // 5),
+                ("Act 4", "Language Breakdown & Moral Reflection", target_turns // 5),
+                ("Act 5", "Interactive Quiz & Encouraging Sign-off", target_turns - 4 * (target_turns // 5)),
+            ]
+            ai_turns = []
+            for act_name, act_theme, act_count in acts_plan:
+                chunk = generate_act_ai(topic_item, act_name, act_theme, act_count)
+                if chunk:
+                    ai_turns.extend(chunk)
+                else:
+                    break
+            if len(ai_turns) >= target_turns * 0.8:
+                print(f"[script] ✅ AI generated {len(ai_turns)} turns successfully!")
+                return ai_turns[:target_turns]
+            print("[script] AI incomplete, falling back to curated storytelling engine.")
 
     # Curated / Procedural generation
     return generate_procedural_story_turns(topic_item, target_turns=target_turns)
