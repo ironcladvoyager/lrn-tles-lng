@@ -1,0 +1,262 @@
+[
+  {
+    "id": 1,
+    "topic": "The Secret of the Whispering Tree",
+    "keyword": "CURIOSITY & COURAGE",
+    "summary": "Lily and Leo discover an ancient willow tree in the Whispering Woods that speaks in riddles and guards a lost magical key.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome to Learn English with Tales! Today we journey into an enchanted forest to uncover the secret of the **whispering** tree."},
+      {"speaker": "Host2", "text": "Deep in the green valley, travelers say the ancient willow tree shares wisdom with anyone who listens **patiently**."},
+      {"speaker": "Host1", "text": "A young girl named Maya heard the gentle leaves murmuring a mystery about a hidden golden **compass**."},
+      {"speaker": "Host2", "text": "Together, let us discover how curiosity and courage guided Maya through the mysterious **shadows**."}
+    ]
+  },
+  {
+    "id": 2,
+    "topic": "The Brave Little Fox and the Starlight Compass",
+    "keyword": "PERSEVERANCE & BRAVERY",
+    "summary": "Felix the young fox must cross the snowy Silver Mountain to return a fallen star before the winter solstice.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Hello story lovers! Today we follow a brave little fox named Felix on an icy mountain **adventure**."},
+      {"speaker": "Host2", "text": "One chilly evening, Felix discovered a glowing spark in the snow that turned out to be a fallen **star**."},
+      {"speaker": "Host1", "text": "To guide the star back to the heavens, Felix needed to trust an old brass **compass**."},
+      {"speaker": "Host2", "text": "Let us see how determination and kindness helped him overcome freezing winds and steep **cliffs**."}
+    ]
+  },
+  {
+    "id": 3,
+    "topic": "The Clockmaker's Mysterious Golden Key",
+    "keyword": "PATIENCE & CRAFTSMANSHIP",
+    "summary": "In an old cobblestone village, a master clockmaker crafts a clock that counts backwards until a forgotten promise is remembered.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome back friends! Today we step inside a cozy workshop filled with ticking gears and brass **pendulums**."},
+      {"speaker": "Host2", "text": "Master Thomas found an antique golden key tucked inside the backplate of an grandfather **clock**."},
+      {"speaker": "Host1", "text": "Every time the clock struck midnight, a tiny mechanical bird revealed a line of an ancient **poem**."},
+      {"speaker": "Host2", "text": "Join us as we solve the mystery of the ticking gears and learn valuable English **phrases**!"}
+    ]
+  },
+  {
+    "id": 4,
+    "topic": "The Dragon Who Wanted to Read",
+    "keyword": "FRIENDSHIP & LEARNING",
+    "summary": "Barnaby the gentle emerald dragon sneaks into the royal library at night because he wants to learn how to read human stories.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome back! Today we meet Barnaby, a giant green dragon with an unusual dream: he wants to **read**!"},
+      {"speaker": "Host2", "text": "While other dragons guarded piles of gold, Barnaby loved the smell of old paper and leather **bindings**."},
+      {"speaker": "Host1", "text": "A young apprentice librarian named Clara decided to teach him the alphabet under the **moonlight**."},
+      {"speaker": "Host2", "text": "This heartwarming tale reminds us that knowledge is the greatest treasure in the entire **world**!"}
+    ]
+  },
+  {
+    "id": 5,
+    "topic": "The Lighthouse at the Edge of the Clouds",
+    "keyword": "HOPE & GUIDANCE",
+    "summary": "High atop Mount Zephyr, an enchanted lighthouse shines light not for ships at sea, but for lost flying airships.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Greetings adventurers! Today we climb above the clouds to visit the most extraordinary lighthouse in the **sky**."},
+      {"speaker": "Host2", "text": "Young keeper Noah was responsible for polishing the giant crystal prism every single **afternoon**."},
+      {"speaker": "Host1", "text": "When a fierce thunderstorm struck, an adventurous airship lost its navigation **instruments**."},
+      {"speaker": "Host2", "text": "Let us explore how quick thinking and steady teamwork saved the lost crew from **danger**."}
+    ]
+  },
+  {
+    "id": 6,
+    "topic": "The Girl Who Built a Solar Kite",
+    "keyword": "CREATIVITY & INGENUITY",
+    "summary": "A clever inventor named Sophie constructs a kite with shimmering solar ribbons that can harvest gentle wind energy for her village.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome to our story circle! Today we celebrate creativity and science with the tale of the solar **kite**."},
+      {"speaker": "Host2", "text": "Sophie loved building gadgets from bamboo sticks, silk threads, and polished copper **wire**."},
+      {"speaker": "Host1", "text": "When the village well stopped pumping water, Sophie designed a flying kite to harness the mountain **breeze**."},
+      {"speaker": "Host2", "text": "Listen closely to discover how imagination can solve big challenges with simple **tools**."}
+    ]
+  },
+  {
+    "id": 7,
+    "topic": "The Whale Who Sang to the Stars",
+    "keyword": "EMPATHY & HARMONY",
+    "summary": "An ancient blue whale named Orion dives to the deepest ocean trenches to learn ocean songs that mirror the constellations.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Dive into the deep blue ocean with us today for a peaceful tale about an extraordinary giant of the **sea**."},
+      {"speaker": "Host2", "text": "Orion the blue whale had a voice so melodious that schools of glowing fish danced to his **rhythm**."},
+      {"speaker": "Host1", "text": "Sailors believed his deep songs could calm stormy waters and guide lost travelers back to **shore**."},
+      {"speaker": "Host2", "text": "We will learn rich English vocabulary about marine life, astronomy, and peaceful **nature**."}
+    ]
+  },
+  {
+    "id": 8,
+    "topic": "The Boy Who Befriended the North Wind",
+    "keyword": "RESPECT & GENEROSITY",
+    "summary": "When the playful North Wind blows away his family's harvest cloth, Arthur journeys to the icy peaks to ask for a fair replacement.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome friends! Today we bring you a classic folktale about a polite boy and the mighty North **Wind**."},
+      {"speaker": "Host2", "text": "Instead of growing angry when the wind scattered his basket, Arthur walked politely up the frosty **hills**."},
+      {"speaker": "Host1", "text": "Impressed by his calm respect, the North Wind gifted him a magical tablecloth that produced warm **bread**."},
+      {"speaker": "Host2", "text": "Get ready to learn lively descriptive adjectives as Arthur protects his family from greedy **neighbors**!"}
+    ]
+  },
+  {
+    "id": 9,
+    "topic": "The Golden Feather of Kindness",
+    "keyword": "COMPASSION & GRATITUDE",
+    "summary": "A humble young farmer rescues a wounded golden songbird and receives a single feather that glows whenever a kind deed is performed.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome to Learn English with Tales! Today's story teaches us how simple acts of kindness create magical **ripples**."},
+      {"speaker": "Host2", "text": "Eli was tending his garden when he noticed a small golden bird tangled in a thorny berry **bush**."},
+      {"speaker": "Host1", "text": "With gentle hands, he freed the creature and cared for its injured wing until it could **fly**."},
+      {"speaker": "Host2", "text": "In return, the bird left behind a feather that illuminated every dark path with pure golden **light**."}
+    ]
+  },
+  {
+    "id": 10,
+    "topic": "The Mystery of the Floating Island",
+    "keyword": "EXPLORATION & DISCOVERY",
+    "summary": "Two curious siblings build a glider to explore a mysterious mossy island that drifts through the mountain clouds every spring.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Pack your imaginary backpacks! Today we are soaring towards an island that floats peacefully above the **cliffs**."},
+      {"speaker": "Host2", "text": "Twins Liam and Nora spent months studying old maps and watching the migration of silver-winged **birds**."},
+      {"speaker": "Host1", "text": "When they landed on the floating moss, they discovered ancient ruins with running freshwater **springs**."},
+      {"speaker": "Host2", "text": "Follow our conversation to learn exciting descriptive language and adventure **expressions**!"}
+    ]
+  },
+  {
+    "id": 11,
+    "topic": "The Painter Whose Colors Came Alive",
+    "keyword": "ARTISTRY & INTEGRITY",
+    "summary": "An honest artist in a quiet seaside village finds magical pigment stones that bring painted animals to life for one hour.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Hello young linguists! Today we enter an art studio where every brushstroke holds real magical **energy**."},
+      {"speaker": "Host2", "text": "Artist Hannah collected colorful pebbles along the shoreline and ground them into radiant natural **powders**."},
+      {"speaker": "Host1", "text": "When she painted a tiny blue butterfly on canvas, it fluttered its wings and flew out the **window**!"},
+      {"speaker": "Host2", "text": "Discover what happened when a greedy merchant demanded she paint him a chest of solid **gold**."}
+    ]
+  },
+  {
+    "id": 12,
+    "topic": "The Squirrel and the Lost Acorn Map",
+    "keyword": "SHARING & TRUST",
+    "summary": "Pip the forgetful red squirrel finds a parchment showing where all the grand oaks buried their ancient acorn treasures.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome back! Today we scurry through the autumn forest with Pip, the most energetic squirrel in the **canopy**."},
+      {"speaker": "Host2", "text": "Pip was famous for hiding thousands of nuts and promptly forgetting where he buried each **single** one."},
+      {"speaker": "Host1", "text": "One day, tucked inside a hollow walnut shell, he discovered a tiny hand-drawn treasure **map**."},
+      {"speaker": "Host2", "text": "Find out how Pip learned that sharing his bountiful harvest brought more joy than hoarding it **alone**."}
+    ]
+  },
+  {
+    "id": 13,
+    "topic": "The Kingdom of Quiet Listeners",
+    "keyword": "ATTENTIVENESS & PEACE",
+    "summary": "In a busy kingdom where everyone shouted to be heard, a wise young princess creates a garden where only whispers are allowed.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome friends! Today we visit a noisy kingdom that learned the incredible power of quiet **listening**."},
+      {"speaker": "Host2", "text": "Everyone in the royal court was talking at the exact same time, so nobody could understand each other's **ideas**."},
+      {"speaker": "Host1", "text": "Princess Aurelia planted a tranquil courtyard filled with bamboo wind chimes and trickling **waterfalls**."},
+      {"speaker": "Host2", "text": "By pausing to listen, the council members finally found solutions to their kingdom's greatest **problems**."}
+    ]
+  },
+  {
+    "id": 14,
+    "topic": "The River of Second Chances",
+    "keyword": "FORGIVENESS & GROWTH",
+    "summary": "A wanderer reaches a crystal river whose waters allow anyone who dips their hands in to make peace with an old mistake.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome back to our English story studio! Today's tale explores the beauty of learning from our **mistakes**."},
+      {"speaker": "Host2", "text": "High in the Whispering Range, travelers whispered tales of a clear alpine stream called the River of **Chances**."},
+      {"speaker": "Host1", "text": "A young woodcarver named Lucas felt guilty after accidentally breaking his sister's favorite wooden **music box**."},
+      {"speaker": "Host2", "text": "Along the riverbank, Lucas discovered that sincere apologies and patient repair bring lasting **healing**."}
+    ]
+  },
+  {
+    "id": 15,
+    "topic": "The Silver Flute of the Meadow",
+    "keyword": "HARMONY & JOY",
+    "summary": "A shepherd girl finds a silver flute in a hollow birch that can make sleeping wild flowers bloom even in early spring.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Good day everyone! Today we enjoy a melody-filled story about a young shepherdess and a silver **flute**."},
+      {"speaker": "Host2", "text": "Whenever Elena played a soft melody on the hills, her flock of sheep stayed peaceful and **content**."},
+      {"speaker": "Host1", "text": "One crisp morning, her music awakened sleeping purple crocuses across the entire green **valley**."},
+      {"speaker": "Host2", "text": "Let us practice melodic English words describing music, flora, and peaceful spring **mornings**."}
+    ]
+  },
+  {
+    "id": 16,
+    "topic": "The Owl Who Conquered the Daylight",
+    "keyword": "ADAPTABILITY & COURAGE",
+    "summary": "Barnaby the little screech owl wore dark tinted amber glasses to explore the bright sunshine and make diurnal woodland friends.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome to Learn English with Tales! Today we meet an adventurous little owl who wanted to see the daytime **sun**."},
+      {"speaker": "Host2", "text": "Barnaby was tired of sleeping all day while squirrels, songbirds, and rabbits played in the warm **meadow**."},
+      {"speaker": "Host1", "text": "With a clever pair of polished amber spectacles, he stepped outside into the bright afternoon **glare**."},
+      {"speaker": "Host2", "text": "Join us to learn fun descriptive adjectives about sunlight, curiosity, and new **friendships**!"}
+    ]
+  },
+  {
+    "id": 17,
+    "topic": "The Stargazer's Golden Telescope",
+    "keyword": "CURIOSITY & SCIENCE",
+    "summary": "A young apprentice astronomer discovers that adjusting the brass dials on a centuries-old telescope reveals forgotten constellations.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Look up at the midnight sky with us today! We are visiting a stone observatory with a giant golden **telescope**."},
+      {"speaker": "Host2", "text": "Apprentice Leo polished the curved glass lenses every evening before the stars emerged in the **twilight**."},
+      {"speaker": "Host1", "text": "One clear night, he spotted a cluster of sparkling stars shaped like a sailing ship with unfurled **sails**."},
+      {"speaker": "Host2", "text": "Listen to our dialogue to master English terms for astronomy, navigation, and celestial **wonders**!"}
+    ]
+  },
+  {
+    "id": 18,
+    "topic": "The Bakery of Warm Memories",
+    "keyword": "HOSPITALITY & COMFORT",
+    "summary": "In a snowy mountain town, a baker bakes cinnamon loaves whose pleasant aroma reminds visitors of their happiest childhood moments.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Step out of the cold winter wind into a cozy bakery filled with the scent of fresh baked **cinnamon**!"},
+      {"speaker": "Host2", "text": "Grandma Rose baked sourdough loaves using flour, honey, and a pinch of secret mountain **herbs**."},
+      {"speaker": "Host1", "text": "Anyone who tasted a warm slice suddenly remembered a warm hug or an old lullaby sung by their **parents**."},
+      {"speaker": "Host2", "text": "We will explore comforting English sensory words describing aromas, textures, and pleasant **memories**."}
+    ]
+  },
+  {
+    "id": 19,
+    "topic": "The Garden That Bloomed at Night",
+    "keyword": "WONDER & PATIENCE",
+    "summary": "A quiet botanist cultivates a rare moonflower garden that releases sweet scents and glowing petals only when the moon is full.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome story lovers! Tonight we stroll through a secret botanical sanctuary that awakens after **sundown**."},
+      {"speaker": "Host2", "text": "While regular blossoms closed their petals at dusk, the silver moon-lilies unfurled under the gentle **moonbeams**."},
+      {"speaker": "Host1", "text": "A friendly nightingale sang sweet melodies from the apple branches, serenading the glowing white **petals**."},
+      {"speaker": "Host2", "text": "Improve your conversational English as we describe nocturnal creatures, fragrances, and tranquil **gardens**."}
+    ]
+  },
+  {
+    "id": 20,
+    "topic": "The Compass That Pointed to Happiness",
+    "keyword": "PURPOSE & GRATITUDE",
+    "summary": "Instead of pointing North, an adventurer's silver compass needle swivels toward wherever someone needs a helping hand.",
+    "level": "A2-B1",
+    "starter_turns": [
+      {"speaker": "Host1", "text": "Welcome back! Today we examine an antique pocket compass that ignores magnetic north completely and points to **kindness**."},
+      {"speaker": "Host2", "text": "Wanderer Maya wondered why the polished needle kept spinning until she noticed a lost puppy shivering by the **gate**."},
+      {"speaker": "Host1", "text": "Whenever she followed the arrow, she found someone who needed a warm meal, a kind word, or a helping **hand**."},
+      {"speaker": "Host2", "text": "This heartwarming adventure teaches us how serving others brings the deepest sense of **joy**."}
+    ]
+  }
+]

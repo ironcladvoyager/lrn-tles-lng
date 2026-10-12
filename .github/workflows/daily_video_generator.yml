@@ -1,9 +1,34 @@
-name: Real Life English Roleplays - Automated Video Generator
+name: Learn English with Tales - Daily Video Generator & Publisher
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 6 * * *'  # Runs every day at 06:00 UTC
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Duration / Mode'
+        required: true
+        default: '20min'
+        type: choice
+        options:
+          - '20min'
+          - 'quick'
+          - 'test'
+      publish_youtube:
+        description: 'Publish to YouTube'
+        required: false
+        default: true
+        type: boolean
+      publish_facebook:
+        description: 'Publish to Facebook'
+        required: false
+        default: true
+        type: boolean
+      custom_topic:
+        description: 'Custom Tale Topic (leave blank for automatic rotation)'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   generate-and-publish:
@@ -28,33 +53,50 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate Video
+      - name: Generate 20-Min Video & Thumbnail
         id: generate
         run: |
-          echo "Generating video for Real Life English Roleplays..."
-          python run_generator.py --auto
+          echo "🌟 Starting Learn English with Tales generation..."
+          CMD_ARGS="--auto"
+          
+          # Handle mode
+          if [ "${{ github.event.inputs.mode }}" = "test" ]; then
+            CMD_ARGS="--test"
+          elif [ "${{ github.event.inputs.mode }}" = "quick" ]; then
+            CMD_ARGS="--quick"
+          else
+            CMD_ARGS="--20min --auto"
+          fi
+
+          # Handle custom topic if provided
+          if [ -n "${{ github.event.inputs.custom_topic }}" ]; then
+            CMD_ARGS="$CMD_ARGS --topic \"${{ github.event.inputs.custom_topic }}\""
+          fi
+
+          # Handle publishing flags
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.publish_youtube }}" = "true" ]; then
+            CMD_ARGS="$CMD_ARGS --publish-yt"
+          fi
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.publish_facebook }}" = "true" ]; then
+            CMD_ARGS="$CMD_ARGS --publish-fb"
+          fi
+
+          echo "Running: python run_generator.py $CMD_ARGS"
+          python run_generator.py $CMD_ARGS
+
           LATEST_DIR=$(ls -td output/run_*/ | head -1)
           echo "LATEST_DIR=$LATEST_DIR" >> $GITHUB_OUTPUT
         env:
           POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
-
-      - name: Publish to Facebook Page
-        id: facebook
-        continue-on-error: true
-        run: |
-          LATEST_DIR="${{ steps.generate.outputs.LATEST_DIR }}"
-          VIDEO_FILE=$(find "$LATEST_DIR" -name "*.mp4" | head -1)
-          META_FILE="$LATEST_DIR/metadata.json"
-          if [ -f "$VIDEO_FILE" ]; then
-            python publish_facebook.py "$VIDEO_FILE" "$META_FILE"
-          fi
-        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
 
       - name: Upload Video Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: video-eng-03-real-situations-${{ github.run_number }}
+          name: tales-video-run-${{ github.run_number }}
           path: output/run_*
           retention-days: 7

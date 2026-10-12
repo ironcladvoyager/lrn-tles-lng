@@ -5,3 +5,4 @@ temp/
 .env
 *.mp4
 *.mp3
+used_topics.txt
