@@ -785,10 +785,7 @@ def assemble_video_fast_pipe(topic_item, turns, audio_list, run_dir):
             proc.stdin.close()
         except Exception:
             pass
-        _, err = proc.communicate()
-        if proc.returncode != 0 and err:
-            err_msg = err.decode('utf-8', errors='ignore')
-            print(f"  [video] Warning on clip {i}: {err_msg[:160]}")
+        proc.wait()
 
         clips.append(clip_p)
         elapsed += dur
