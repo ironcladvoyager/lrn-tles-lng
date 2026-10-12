@@ -344,48 +344,75 @@ def generate_full_story_script(topic_item, target_turns=150):
     return generate_procedural_story_turns(topic_item, target_turns=target_turns)
 
 async def synthesize_single_turn(i, turn, audio_dir, sem):
-    """Synthesizes one dialogue turn with Edge TTS and extracts boundary timestamps."""
+    """Synthesizes one dialogue turn with Edge TTS and extracts boundary timestamps with auto-retries."""
     async with sem:
         mp3_p = audio_dir / f"turn_{i:04d}.mp3"
         spoken = re.sub(r'\*\*(.*?)\*\*', r'\1', turn["text"])
 
-        if turn["speaker"] == "Host1":
-            comm = edge_tts.Communicate(spoken, LILY_VOICE, rate=LILY_RATE, pitch=LILY_PITCH)
-        else:
-            comm = edge_tts.Communicate(spoken, LEO_VOICE, rate=LEO_RATE, pitch=LEO_PITCH)
+        primary_voice = LILY_VOICE if turn["speaker"] == "Host1" else LEO_VOICE
+        primary_pitch = LILY_PITCH if turn["speaker"] == "Host1" else LEO_PITCH
+        primary_rate = LILY_RATE if turn["speaker"] == "Host1" else LEO_RATE
+
+        # Fallback voices in case primary voice encounters 403 rate-limit
+        voice_candidates = [
+            (primary_voice, primary_rate, primary_pitch),
+            ("en-US-JennyNeural" if turn["speaker"] == "Host1" else "en-US-GuyNeural", "-4%", "+2Hz" if turn["speaker"] == "Host1" else "-10Hz"),
+            ("en-CA-ClaraNeural" if turn["speaker"] == "Host1" else "en-CA-LiamNeural", "-4%", "+2Hz" if turn["speaker"] == "Host1" else "-10Hz")
+        ]
 
         sentences = []
         audio_bytes = bytearray()
+        success = False
 
-        try:
-            async for chunk in comm.stream():
-                if chunk.get("type") == "SentenceBoundary":
-                    start_s = chunk["offset"] / 10_000_000.0
-                    dur_s = chunk["duration"] / 10_000_000.0
-                    sentences.append({
-                        "text": chunk["text"],
-                        "start": start_s,
-                        "duration": dur_s,
-                        "end": start_s + dur_s
-                    })
-                elif chunk.get("type") == "audio":
-                    audio_bytes.extend(chunk["data"])
-        except Exception as e:
-            print(f"[tts] Error in turn {i}: {e}")
+        for attempt, (voice_name, v_rate, v_pitch) in enumerate(voice_candidates, 1):
+            try:
+                comm = edge_tts.Communicate(spoken, voice_name, rate=v_rate, pitch=v_pitch)
+                cur_sentences = []
+                cur_bytes = bytearray()
 
-        with open(mp3_p, "wb") as f:
-            f.write(audio_bytes)
+                async for chunk in comm.stream():
+                    if chunk.get("type") == "SentenceBoundary":
+                        start_s = chunk["offset"] / 10_000_000.0
+                        dur_s = chunk["duration"] / 10_000_000.0
+                        cur_sentences.append({
+                            "text": chunk["text"],
+                            "start": start_s,
+                            "duration": dur_s,
+                            "end": start_s + dur_s
+                        })
+                    elif chunk.get("type") == "audio":
+                        cur_bytes.extend(chunk["data"])
 
-        # Get exact duration via ffprobe
-        try:
-            r = subprocess.run(
-                ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-                 "-of", "default=noprint_wrappers=1:nokey=1", str(mp3_p)],
-                capture_output=True, text=True, check=True
-            )
-            duration = float(r.stdout.strip())
-        except Exception:
-            duration = sentences[-1]["end"] if sentences else 5.0
+                if len(cur_bytes) > 500:
+                    audio_bytes = cur_bytes
+                    sentences = cur_sentences
+                    success = True
+                    break
+            except Exception as e:
+                print(f"[tts] Turn {i} attempt {attempt} notice: {e}. Retrying in {attempt * 1.5}s...")
+                await asyncio.sleep(attempt * 1.5)
+
+        # If all TTS attempts fail, generate safe fallback audio using pydub so ffmpeg never breaks
+        if not success or len(audio_bytes) < 500:
+            print(f"[tts] ⚠️ Turn {i} generating fallback silent audio to prevent broken pipe.")
+            est_dur = max(3.5, len(spoken.split()) * 0.45)
+            silent_seg = AudioSegment.silent(duration=int(est_dur * 1000), frame_rate=24000)
+            silent_seg.export(str(mp3_p), format="mp3")
+            duration = est_dur
+            sentences = [{"text": spoken, "start": 0.0, "duration": est_dur, "end": est_dur}]
+        else:
+            with open(mp3_p, "wb") as f:
+                f.write(audio_bytes)
+
+            try:
+                r = subprocess.run(
+                    ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                     "-of", "default=noprint_wrappers=1:nokey=1", str(mp3_p)],
+                    capture_output=True, text=True, check=True
+                )
+                duration = float(r.stdout.strip())
+            except Exception:
+                duration = sentences[-1]["end"] if sentences else 5.0
 
         # Subdivide long sentences into bite-sized phrases (max 7-8 words)
         timed_phrases = []
@@ -435,10 +462,15 @@ async def synthesize_single_turn(i, turn, audio_dir, sem):
 async def generate_all_audio(turns, run_dir):
     audio_dir = run_dir / "audio"
     audio_dir.mkdir(parents=True, exist_ok=True)
-    sem = asyncio.Semaphore(8)
+    # Conservative concurrency of 3 to prevent Edge TTS rate-limits on cloud IPs
+    sem = asyncio.Semaphore(3)
 
     print(f"[audio] 🎙️ Generating {len(turns)} audio turns with child neural voices...")
-    tasks = [synthesize_single_turn(i, turn, audio_dir, sem) for i, turn in enumerate(turns)]
+    tasks = []
+    for i, turn in enumerate(turns):
+        tasks.append(synthesize_single_turn(i, turn, audio_dir, sem))
+        if i % 10 == 0:
+            await asyncio.sleep(0.05)
     results = await asyncio.gather(*tasks)
     results.sort(key=lambda x: x["index"])
     return results
@@ -704,9 +736,18 @@ def assemble_video_fast_pipe(topic_item, turns, audio_list, run_dir):
             str(clip_p)
         ]
 
-        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        # Guarantee audio file is valid and non-empty before starting FFmpeg
+        audio_file = Path(audio["path"])
+        if not audio_file.exists() or audio_file.stat().st_size < 200:
+            print(f"  [video] Fixing empty audio for clip {i}...")
+            AudioSegment.silent(duration=int(dur * 1000) or 4000, frame_rate=24000).export(str(audio_file), format="mp3")
 
+        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        broken = False
         for f_idx in range(total_frames):
+            if broken:
+                break
             t_in_turn = (f_idx / total_frames) * dur
             sub_elapsed = elapsed + t_in_turn
 
@@ -735,10 +776,19 @@ def assemble_video_fast_pipe(topic_item, turns, audio_list, run_dir):
                 eq_bars, f_idx, sub_elapsed, total_dur
             )
 
-            proc.stdin.write(frame.convert("RGB").tobytes())
+            try:
+                proc.stdin.write(frame.convert("RGB").tobytes())
+            except (BrokenPipeError, OSError):
+                broken = True
 
-        proc.stdin.close()
-        proc.wait()
+        try:
+            proc.stdin.close()
+        except Exception:
+            pass
+        _, err = proc.communicate()
+        if proc.returncode != 0 and err:
+            err_msg = err.decode('utf-8', errors='ignore')
+            print(f"  [video] Warning on clip {i}: {err_msg[:160]}")
 
         clips.append(clip_p)
         elapsed += dur

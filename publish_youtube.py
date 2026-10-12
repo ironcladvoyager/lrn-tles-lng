@@ -24,10 +24,23 @@ BASE_DIR = Path(__file__).parent
 OUTPUT_DIR = BASE_DIR / "output"
 
 def get_authenticated_service():
-    """Authenticate using refresh token from environment variables."""
+    """Authenticate using refresh token from environment variables or local token file."""
     client_id = (os.getenv('YT_CLIENT_ID') or os.getenv('YOUTUBE_CLIENT_ID', '')).strip().strip('"').strip("'")
     client_secret = (os.getenv('YT_CLIENT_SECRET') or os.getenv('YOUTUBE_CLIENT_SECRET', '')).strip().strip('"').strip("'")
     refresh_token = (os.getenv('YT_REFRESH_TOKEN') or os.getenv('YOUTUBE_REFRESH_TOKEN', '')).strip().strip('"').strip("'")
+
+    if not all([client_id, client_secret, refresh_token]):
+        # Try local token file fallback
+        candidate_json = Path(r"C:\Users\kreg9\Downloads\kreggscode\open code\bots\youtube refresh tokens bot\token_Learn English with tales.json")
+        if candidate_json.exists():
+            try:
+                with open(candidate_json, encoding="utf-8") as f:
+                    data = json.load(f)
+                    client_id = client_id or data.get("client_id", "")
+                    client_secret = client_secret or data.get("client_secret", "")
+                    refresh_token = refresh_token or data.get("refresh_token", "")
+            except Exception:
+                pass
 
     if not all([client_id, client_secret, refresh_token]):
         raise ValueError(
